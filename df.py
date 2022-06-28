@@ -36,13 +36,8 @@ def get_text(date, url):
     return text
 
 
-def get_date(text: str) -> str:
-    date_list = re.findall(r'OnDate="(\d{8})', text)
-    date_str = date_list[0]
-    return date_str
-    
 
-def get_data_list_xml(text: str) -> list[str]:
+def get_data_xml(text: str) -> list[str]:
     text = re.findall(r'xmlns="">(.+)</ValuteData>', text)
     text = text[0]
     data = text.split("<ValuteCursOnDate>")
@@ -51,24 +46,24 @@ def get_data_list_xml(text: str) -> list[str]:
     return data_list
    
  
-def get_data_list(data_xml: list[str]) -> list[dict[str, dict[str, str]]]:
-    data = []
+def get_data(data_xml: list[str]) -> dict[str, dict[str, str]]:
+    data = {}
     for i in data_xml:
         Vname = re.findall(r'<Vname>(.+)</Vname>', i)
         Vnom = re.findall(r'<Vnom>(.+)</Vnom>', i)
         Vcurs = re.findall(r'<Vcurs>(.+)</Vcurs>', i)
         Vcode = re.findall(r'<Vcode>(.+)</Vcode>', i)
         VchCode = re.findall(r'<VchCode>(.+)</VchCode>', i)
-        data.append({Vcode[0]:{"Vname":Vname[0], "Vnom":Vnom[0], "Vcurs":Vcurs[0], "Vcode":Vcode[0], "VchCode":VchCode[0]}})
+        data[Vcode[0]] = {"Vname":Vname[0], "Vnom":Vnom[0], "Vcurs":Vcurs[0], "Vcode":Vcode[0], "VchCode":VchCode[0]}
     
     return data
 
 
 
-def data(date, url: str) -> list[dict[str, str]]:
+def data(date, url: str) -> dict[str, dict[str, str]]:
     text = get_text(date, url)
-    data_xml = get_data_list_xml(text)
-    data = get_data_list(data_xml)
+    data_xml = get_data_xml(text)
+    data = get_data(data_xml)
     return data
 
 
@@ -77,8 +72,7 @@ if __name__ == "__main__":
     url = 'http://www.cbr.ru/dailyinfowebserv/dailyinfo.asmx?wsdl'
     date = datetime.date(2022, 6, 23)
     text = get_text(date, url)
-    print(text)
-    data_xml = get_data_list_xml(text)
+    data_xml = get_data_xml(text)
     data = data(date, url)
     
 

@@ -11,8 +11,16 @@ url = 'http://www.cbr.ru/dailyinfowebserv/dailyinfo.asmx?wsdl'
 conn, cur = base.make_base()
 log = logger.set_logger()
 
-def filter_data(indexs, data):
-    f_data = [data[i] for i in indexs]
+def get_date_indexs(arg: list):
+    date = datetime.strptime(arg[1], "%d.%m.%Y")
+    date = date.date()
+    indexes = argv[2:]
+    return date, indexes
+
+
+
+def filter_data(indexes: list[str], data: dict[str, dict[str, str]]) -> list[dict[str, str]]:
+    f_data = [data[i] for i in indexes]
     return f_data
 
 def set_data(id, date, data, cur = cur, conn = conn):
@@ -61,18 +69,17 @@ def chek_data(date, cur = cur, conn = conn):
 
 if __name__ == '__main__':
     
-    
-    date = datetime.strptime(argv[1], "%d.%m.%Y")
-    indexs = argv[2:]
-    
-    print(date)
-    
-    
+    argv = ['main.py', '28.06.2022', '410', '710', '756']
+    date, indexes = get_date_indexs(argv)
     data = df.data(date, url)
+    f_data = filter_data(indexes, data)
+    id_1 = chek_data(date)
+    set_data(id_1, date, f_data)
+
+
     
-    data = filter_data(indexs, data)
     
-    print(data)
+
     
      
     '''
