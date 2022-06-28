@@ -3,13 +3,17 @@
 import df
 import logger
 import base
-import datetime
+from datetime import datetime
 from sys import argv
 
 url = 'http://www.cbr.ru/dailyinfowebserv/dailyinfo.asmx?wsdl'
 
 conn, cur = base.make_base()
 log = logger.set_logger()
+
+def filter_data(indexs, data):
+    f_data = [data[i] for i in indexs]
+    return f_data
 
 def set_data(id, date, data, cur = cur, conn = conn):
         
@@ -56,8 +60,22 @@ def chek_data(date, cur = cur, conn = conn):
 
 
 if __name__ == '__main__':
-
-  
+    
+    
+    date = datetime.strptime(argv[1], "%d.%m.%Y")
+    indexs = argv[2:]
+    
+    print(date)
+    
+    
+    data = df.data(date, url)
+    
+    data = filter_data(indexs, data)
+    
+    print(data)
+    
+     
+    '''
     date_today  = datetime.date.today()
     date_day  = datetime.date(2022, 6, 23)
     
@@ -96,8 +114,7 @@ if __name__ == '__main__':
             id_4 = chek_data(date_today)
             assert id_4 == None, 'Неверное определение даты в таблице'
 
-       
-       
+       '''
        
        
        

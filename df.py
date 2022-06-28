@@ -77,6 +77,7 @@ if __name__ == "__main__":
     url = 'http://www.cbr.ru/dailyinfowebserv/dailyinfo.asmx?wsdl'
     date = datetime.date(2022, 6, 23)
     text = get_text(date, url)
+    print(text)
     data_xml = get_data_list_xml(text)
     data = data(date, url)
     
