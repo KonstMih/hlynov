@@ -20,8 +20,8 @@ class Test_bank(unittest.TestCase):
     text_list = ['24356<Vname>ABc </Vname>56476<Vnom>123</Vnom>4#%<Vcurs>125.236</Vcurs>sd<Vcode>1fп/ </Vcode>вап<VchCode>254авп</VchCode>gghng', 
                  'апапр<Vname>Абв dcdв</Vname>dhfh<Vnom>456</Vnom>@$%ht65<Vcurs>84.325</Vcurs>46<Vcode>25eот*</Vcode>rgv<VchCode>347</VchCode>:№%;*(']
     
-    result_text_list = [{'Vnom':'123', 'Vcurs':'125.236', 'Vcode':'1fп/ ', 'VchCode':'254авп', 'Vname':'ABc '}, 
-                        {'Vnom':'456', 'Vcurs':'84.325', 'Vcode':'25eот*', 'VchCode':'347', 'Vname':'Абв dcdв'}]
+    result_text_list = [{'1fп/ ':{'Vnom':'123', 'Vcurs':'125.236', 'Vcode':'1fп/ ', 'VchCode':'254авп', 'Vname':'ABc '}}, 
+                        {'25eот*':{'Vnom':'456', 'Vcurs':'84.325', 'Vcode':'25eот*', 'VchCode':'347', 'Vname':'Абв dcdв'}}]
     
     def test_get_data_listl(self, data = text_list, result = result_text_list ):
         self.assertEqual(df.get_data_list(data), result)

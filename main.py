@@ -4,6 +4,7 @@ import df
 import logger
 import base
 import datetime
+from sys import argv
 
 url = 'http://www.cbr.ru/dailyinfowebserv/dailyinfo.asmx?wsdl'
 

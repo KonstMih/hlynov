@@ -2,9 +2,6 @@
 
 
 import requests
-from lxml import etree, objectify
-from io import StringIO, BytesIO
-import xml.etree.ElementTree as ET
 import re
 import datetime
 
@@ -54,7 +51,7 @@ def get_data_list_xml(text: str) -> list[str]:
     return data_list
    
  
-def get_data_list(data_xml: list[str]) -> list[dict[str, str]]:
+def get_data_list(data_xml: list[str]) -> list[dict[str, dict[str, str]]]:
     data = []
     for i in data_xml:
         Vname = re.findall(r'<Vname>(.+)</Vname>', i)
@@ -62,7 +59,7 @@ def get_data_list(data_xml: list[str]) -> list[dict[str, str]]:
         Vcurs = re.findall(r'<Vcurs>(.+)</Vcurs>', i)
         Vcode = re.findall(r'<Vcode>(.+)</Vcode>', i)
         VchCode = re.findall(r'<VchCode>(.+)</VchCode>', i)
-        data.append({"Vname":Vname[0], "Vnom":Vnom[0], "Vcurs":Vcurs[0], "Vcode":Vcode[0], "VchCode":VchCode[0]})
+        data.append({Vcode[0]:{"Vname":Vname[0], "Vnom":Vnom[0], "Vcurs":Vcurs[0], "Vcode":Vcode[0], "VchCode":VchCode[0]}})
     
     return data
 
