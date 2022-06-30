@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
-
 import sqlite3
 
-
 def make_base():
+    '''
+    Создание базы данных
+    '''
+
     conn = sqlite3.connect('orders.db')
     cur = conn.cursor()
     

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
 import requests
 import re
 import datetime
@@ -11,9 +10,7 @@ def get_text(date, url):
     '''
     Получение ответа по запросу
     '''
-    
-    
-    
+
     body = f"""
     <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
       <soap:Body>
@@ -36,8 +33,10 @@ def get_text(date, url):
     return text
 
 
-
 def get_data_xml(text: str) -> list[str]:
+    '''
+    Разбиение текста ответа на части по валютам
+    '''
     text = re.findall(r'xmlns="">(.+)</ValuteData>', text)
     text = text[0]
     data = text.split("<ValuteCursOnDate>")
@@ -47,6 +46,9 @@ def get_data_xml(text: str) -> list[str]:
    
  
 def get_data(data_xml: list[str]) -> dict[str, dict[str, str]]:
+    '''
+    Преобразование каждой части в словарь с данными
+    '''
     data = {}
     for i in data_xml:
         Vname = re.findall(r'<Vname>(.+)</Vname>', i)
@@ -61,6 +63,9 @@ def get_data(data_xml: list[str]) -> dict[str, dict[str, str]]:
 
 
 def data(date, url: str) -> dict[str, dict[str, str]]:
+    '''
+    Объединяющая функция для получения данных напрямую из даты и адреса ресурса
+    '''
     text = get_text(date, url)
     data_xml = get_data_xml(text)
     data = get_data(data_xml)
