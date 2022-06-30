@@ -3,7 +3,7 @@
 import logging
 import os
 
-def set_logger():
+def set_logger(name_log):
     """
     Настройка логера
     """
@@ -16,7 +16,7 @@ def set_logger():
         format = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
         s_handler = logging.StreamHandler()
-        f_handler = logging.FileHandler("./log/log_file.log")
+        f_handler = logging.FileHandler(f'./log/{name_log}.log')
         
         f_handler.setLevel(logging.INFO)
         s_handler.setLevel(logging.INFO)
