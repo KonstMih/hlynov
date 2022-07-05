@@ -26,7 +26,7 @@ def get_text(date, url):
     session = requests.session()
     session.headers = {"Content-Type": "text/xml; charset=utf-8"}
     session.headers.update({"Content-Length": str(len(body))})
-    response = session.post(url=url, data=body, verify=False)
+    response = session.post(url=url, data=body, verify=True)
     
     text = response.text
     
@@ -74,7 +74,7 @@ def data(date, url: str) -> dict[str, dict[str, str]]:
 
 if __name__ == "__main__":
     
-    url = 'http://www.cbr.ru/dailyinfowebserv/dailyinfo.asmx?wsdl'
+    url = 'https://www.cbr.ru/dailyinfowebserv/dailyinfo.asmx?wsdl'
     date = datetime.date(2022, 6, 23)
     text = get_text(date, url)
     data_xml = get_data_xml(text)
